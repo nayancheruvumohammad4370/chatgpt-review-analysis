@@ -1,101 +1,170 @@
-# chatgpt-review-analysis
-Analysis of ChatGPT user reviews, sentiment scoring, and insights based on real feedback.
+==============================
+# CHATGPT REVIEWS ANALYSIS
 
-# ChatGPT Reviews Analysis
-# (Basic sentiment + review insights)
+A Complete End-to-End Sentiment and Rating Analysis Project
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-from textblob import TextBlob
-import re
-from wordcloud import WordCloud
+==============================
+# PROJECT OVERVIEW
 
-# -----------------------
-# Load the dataset
-# -----------------------
-df = pd.read_csv("chatgpt_reviews.csv")
-df.head()
+This project analyzes thousands of ChatGPT user reviews to understand user satisfaction, sentiment patterns, rating behavior, and trends over time.
+Includes data cleaning, feature engineering, sentiment scoring, visual insights, and exporting enriched datasets.
 
-# -----------------------
-# Basic cleaning
-# -----------------------
-def clean_text(text):
-    text = str(text).lower()
-    text = re.sub(r'http\S+', '', text)
-    text = re.sub('[^a-zA-Z ]', ' ', text)
-    text = re.sub('\s+', ' ', text)
-    return text.strip()
+==============================
+# KEY FEATURES
 
-df["clean_review"] = df["Review"].apply(clean_text)
+Full review cleaning pipeline
 
-# -----------------------
-# Sentiment score (TextBlob)
-# -----------------------
-def get_sentiment(txt):
-    return TextBlob(txt).sentiment.polarity
+Sentiment analysis using polarity & subjectivity
 
-df["sentiment_score"] = df["clean_review"].apply(get_sentiment)
+Positive / Negative / Neutral classification
 
-# -----------------------
-# Convert score to label
-# -----------------------
-def label(s):
-    if s > 0.1:
-        return "Positive"
-    elif s < -0.1:
-        return "Negative"
-    return "Neutral"
+Rating distribution visualization
 
-df["sentiment_type"] = df["sentiment_score"].apply(label)
+Word frequency extraction
 
-# -----------------------
-# Add another useful column → review word count
-# -----------------------
-df["word_count"] = df["Review"].astype(str).apply(lambda x: len(x.split()))
+Positive & negative word clouds
 
-# -----------------------
-# Quick summary
-# -----------------------
-print("Sentiment Split:")
-print(df["sentiment_type"].value_counts())
+Monthly, quarterly, and rating trends
 
-# -----------------------
-# Plot sentiment distribution
-# -----------------------
-plt.figure(figsize=(6,4))
-df["sentiment_type"].value_counts().plot(kind="bar")
-plt.title("Sentiment Distribution")
-plt.xlabel("Sentiment")
-plt.ylabel("Count")
-plt.show()
+Exported final enriched dataset
 
-# -----------------------
-# Wordclouds to understand themes
-# -----------------------
-pos_text = " ".join(df[df.sentiment_type=="Positive"]["clean_review"])
-neg_text = " ".join(df[df.sentiment_type=="Negative"]["clean_review"])
+==============================
+# DATASET FIELDS
 
-wc = WordCloud(width=900, height=400)
+Review
 
-# Positive
-plt.figure(figsize=(10,4))
-plt.imshow(wc.generate(pos_text))
-plt.axis("off")
-plt.title("Positive Review WordCloud")
-plt.show()
+Ratings
 
-# Negative
-plt.figure(figsize=(10,4))
-plt.imshow(wc.generate(neg_text))
-plt.axis("off")
-plt.title("Negative Review WordCloud")
-plt.show()
+Review Date
 
-# -----------------------
-# Export enriched dataset
-# -----------------------
-df.to_excel("chatgpt_review_analysis_output.xlsx", index=False)
+Engineered columns (clean_review, polarity, sentiment_type, etc.)
 
-print("Analysis complete. File saved.")
+==============================
+# DATA CLEANING & FEATURE ENGINEERING
 
+Generated new columns:
+
+clean_review
+
+polarity
+
+subjectivity
+
+sentiment_category
+
+sentiment_score
+
+word_count
+
+Review Month
+
+Review Quarter
+
+==============================
+# SENTIMENT ANALYSIS DETAILS
+
+Polarity
+
+Range: -1 to +1
+
+0 → Positive
+
+< 0 → Negative
+
+= 0 → Neutral
+
+Subjectivity
+
+Range: 0 to 1
+
+0 = factual
+
+1 = opinion-based
+
+==============================
+# VISUALIZATIONS GENERATED
+
+Rating distribution bar chart
+
+Sentiment category distribution
+
+Subjectivity histogram
+
+Sentiment vs Ratings stacked bar chart
+
+Monthly review trend
+
+Quarterly review trend
+
+Average rating over time
+
+Word clouds (positive & negative)
+
+Top 20 positive words
+
+Top 20 negative words
+
+==============================
+# KEY INSIGHTS
+
+Majority of reviews state positive satisfaction
+
+Negative reviews highlight accuracy issues or slowness
+
+Subjectivity is high → reviews are mostly opinions
+
+Monthly/quarterly review spikes appear during major updates
+
+Ratings remain stable with minor fluctuations
+
+==============================
+# TOP POSITIVE WORD THEMES
+
+helpful, fast, easy, accurate, useful, amazing
+
+==============================
+# TOP NEGATIVE WORD THEMES
+
+wrong, slow, issues, bad, error, not working
+
+==============================
+# OUTPUT FILE
+
+chatgpt_review_analysis_output.xlsx
+Contains all engineered columns for BI dashboards or advanced NLP work.
+
+==============================
+# WHAT THIS PROJECT SHOWCASES
+
+Python + EDA skills
+
+Text analytics (NLP)
+
+Real-world sentiment analysis
+
+Visualization & storytelling
+
+End-to-end analytical workflow
+
+Perfect GitHub portfolio project
+
+==============================
+# HOW TO RUN
+
+Install dependencies:
+pip install pandas numpy matplotlib seaborn wordcloud textblob
+python -m textblob.download_corpora
+
+Load dataset in Jupyter or Colab
+
+Run the script / notebook
+
+Visuals will render automatically
+
+Exported Excel file will be created
+
+==============================
+# CONCLUSION
+
+This project delivers highly valuable insights into user experience with ChatGPT.
+It demonstrates strong skills in data cleaning, NLP, visualization, and full EDA workflow — ideal for GitHub and resume presentation.
